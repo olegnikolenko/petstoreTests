@@ -2,7 +2,9 @@ import random
 import string
 import requests
 import pytest
+import log_requests
 
+log_requests.debug_requests()
 base_url = 'https://petstore.swagger.io/v2'
 headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
@@ -11,11 +13,10 @@ headers = {'content-type': 'application/json', 'accept': 'application/json'}
 def pet_name(): return ''.join([random.choice(string.ascii_lowercase) for i in range(10)])
 
 
-@pytest.fixture("status", params=["available", ""])
-def status(): return status
+@pytest.fixture(params=["available", "sold", "pending",  pytest.param("", marks=pytest.mark.xfail)])
+def status(request): return request.param
 
 
-@pytest.fixture
 def pet_data(pet_name, status): return {
     "id": 0,
     "category": {
@@ -36,7 +37,18 @@ def pet_data(pet_name, status): return {
 }
 
 
-def test_post(pet_data):
-    response = requests.post(f"{base_url}/pet", json=pet_data, headers=headers)
+def test_create_pet(pet_name, status):
+    response = requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
+    assert response.json().get("name") == pet_name and response.json().get("status") == status
     assert response.status_code == 200
-    print(response.content)
+    print(response.text)
+
+
+def test_get_pet(pet_name):
+    status = "available"
+    created_pet = requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
+    pet_id = created_pet.json().get("id")
+
+    get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
+    assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == status
+    assert get_pet.status_code == 200
