@@ -58,7 +58,7 @@ def test_get_pet(pet_name):
     assert get_pet.status_code == 200
 
 
-def test_get_pets():
+def test_get_pet_by_saved_id():
     pet_id = 9223372000666096368
     get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
     assert get_pet.json().get("id") == pet_id
