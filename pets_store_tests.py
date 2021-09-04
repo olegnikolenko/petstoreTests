@@ -45,10 +45,21 @@ def test_create_pet(pet_name, status):
 
 
 def test_get_pet(pet_name):
+
+    """ тут тест подмигивает """
+
     status = "available"
     created_pet = requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
     pet_id = created_pet.json().get("id")
 
     get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
+    print(get_pet.text)
     assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == status
+    assert get_pet.status_code == 200
+
+
+def test_get_pets():
+    pet_id = 9223372000666096368
+    get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
+    assert get_pet.json().get("id") == pet_id
     assert get_pet.status_code == 200
