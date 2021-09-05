@@ -9,14 +9,6 @@ base_url = 'https://petstore.swagger.io/v2'
 headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
 
-@pytest.fixture
-def pet_name(): return ''.join([random.choice(string.ascii_lowercase) for i in range(10)])
-
-
-@pytest.fixture(params=["available", "sold", "pending",  pytest.param("", marks=pytest.mark.xfail)])
-def status(request): return request.param
-
-
 def pet_data(pet_name, status): return {
     "id": 0,
     "category": {
@@ -35,6 +27,14 @@ def pet_data(pet_name, status): return {
     ],
     "status": status
 }
+
+
+@pytest.fixture
+def pet_name(): return ''.join([random.choice(string.ascii_lowercase) for i in range(10)])
+
+
+@pytest.fixture(params=["available", "sold", "pending",  pytest.param("", marks=pytest.mark.xfail)])
+def status(request): return request.param
 
 
 def create_pet(pet_name, status):
