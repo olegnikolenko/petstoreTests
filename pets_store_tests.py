@@ -37,6 +37,10 @@ def pet_data(pet_name, status): return {
 }
 
 
+def create_pet(pet_name, status):
+    return requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
+
+
 def test_create_pet(pet_name, status):
     response = requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
     assert response.json().get("name") == pet_name and response.json().get("status") == status
@@ -48,17 +52,18 @@ def test_get_pet(pet_name):
 
     """ тут тест подмигивает """
 
-    status = "available"
-    created_pet = requests.post(f"{base_url}/pet", json=pet_data(pet_name, status), headers=headers)
+    created_pet = create_pet(pet_name, "available")
     pet_id = created_pet.json().get("id")
 
     get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
-    print(get_pet.text)
-    assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == status
+    assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == "available"
     assert get_pet.status_code == 200
 
 
 def test_get_pet_by_saved_id():
+
+    """ не очень удачный пример с захардкоженным id"""
+
     pet_id = 9223372000666096368
     get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
     assert get_pet.json().get("id") == pet_id
