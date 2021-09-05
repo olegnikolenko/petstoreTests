@@ -57,12 +57,12 @@ def test_create_pet(pet_name, status):
 def test_get_pet(pet_name):
 
     """ тут тест подмигивает """
-
-    created_pet = create_pet(pet_name, "available")
+    status = "available"
+    created_pet = create_pet(pet_name, status)
     pet_id = created_pet.json().get("id")
 
     get_pet = requests.get(f"{base_url}/pet/{pet_id}", headers=headers)
-    assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == "available"
+    assert get_pet.json().get("name") == pet_name and get_pet.json().get("status") == status
     assert get_pet.status_code == 200
 
 
