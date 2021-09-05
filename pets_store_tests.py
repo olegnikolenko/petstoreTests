@@ -4,6 +4,12 @@ import requests
 import pytest
 import log_requests
 
+"""
+TODO
+- написать рест клиент
+- написать валидатор json схемы
+"""
+
 log_requests.debug_requests()
 base_url = 'https://petstore.swagger.io/v2'
 headers = {'content-type': 'application/json', 'accept': 'application/json'}
