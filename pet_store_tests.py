@@ -51,7 +51,3 @@ class TestPetStore:
             expected_data=pet_response_json,
             actual_data=pet_update
         )
-
-
-
-
