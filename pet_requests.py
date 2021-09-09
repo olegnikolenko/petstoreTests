@@ -1,16 +1,18 @@
 import json
+import random
+import string
 
 
-def __request_data():
-    file = open('request_json/pet_request.json')
+def __request_data(path_to_json):
+    file = open(path_to_json)
     data = json.load(file)
     file.close()
     return data
 
 
-def pet_json(name, status, id=0):
-    d = __request_data()
+def pet_json(path_to_json, status, id=0):
+    d = __request_data(path_to_json)
     d['id'] = id
-    d['name'] = name
+    d['name'] = ''.join([random.choice(string.ascii_lowercase) for i in range(10)])
     d['status'] = status
     return d

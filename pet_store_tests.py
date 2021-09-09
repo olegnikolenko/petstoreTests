@@ -1,21 +1,19 @@
 import pet_store_client
 import pet_store_assert
 import pet_requests
-import random
+import log_requests
 import pytest
-import string
 
-
+log_requests.debug_requests()
 pet_store_client = pet_store_client.PetStoreClient()
 
 
 @pytest.fixture
-def pet_name(): return ''.join([random.choice(string.ascii_lowercase) for i in range(10)])
-
-
-@pytest.fixture
-def pet_request_json(pet_name):
-    return pet_requests.pet_json(pet_name, "available")
+def pet_request_json():
+    return pet_requests.pet_json(
+        path_to_json='request_json/pet_request.json',
+        status='available'
+    )
 
 
 @pytest.fixture
