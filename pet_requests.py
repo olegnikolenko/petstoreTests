@@ -2,7 +2,7 @@ import json
 
 
 def __request_data():
-    file = open('pet_request.json')
+    file = open('request_json/pet_request.json')
     data = json.load(file)
     file.close()
     return data
