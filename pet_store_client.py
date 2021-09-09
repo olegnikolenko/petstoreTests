@@ -1,5 +1,6 @@
 import os
 import requests
+import allure
 
 
 class PetStoreClient:
@@ -10,6 +11,7 @@ class PetStoreClient:
         if self.__base_url == -1:
             raise RuntimeError('Значение BASE_URL не задан')
 
+    @allure.step
     def create(self, pet_json):
         r = requests.put(f"{self.__base_url}/pet", json=pet_json, headers=self.__headers)
         return r.json()

@@ -1,6 +1,7 @@
 import json
 import random
 import string
+import allure
 
 
 def __request_data(path_to_json):
@@ -10,6 +11,7 @@ def __request_data(path_to_json):
     return data
 
 
+@allure.step
 def pet_json(path_to_json, status, id=0):
     d = __request_data(path_to_json)
     d['id'] = id
