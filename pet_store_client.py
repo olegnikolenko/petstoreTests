@@ -11,14 +11,18 @@ class PetStoreClient:
             raise RuntimeError('Значение BASE_URL не задан')
 
     def create(self, pet_json):
-        return requests.put(f"{self.__base_url}/pet", json=pet_json, headers=self.__headers)
+        r = requests.put(f"{self.__base_url}/pet", json=pet_json, headers=self.__headers)
+        return r.json()
 
     def update(self, pet_json):
-        return requests.put(f"{self.__base_url}/pet", json=pet_json, headers=self.__headers)
+        r = requests.put(f"{self.__base_url}/pet", json=pet_json, headers=self.__headers)
+        return r.json()
 
     def get(self, pet_id):
-        return requests.get(f"{self.__base_url}/pet/{pet_id}", headers=self.__headers)
+        r = requests.get(f"{self.__base_url}/pet/{pet_id}", headers=self.__headers)
+        return r.json()
 
     def delete(self, pet_id):
-        return requests.delete(f"{self.__base_url}/pet/{pet_id}", headers=self.__headers)
+        r = requests.delete(f"{self.__base_url}/pet/{pet_id}", headers=self.__headers)
+        return r.json()
 
